@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
 const LoginPage: React.FC = () => {
@@ -8,15 +9,22 @@ const LoginPage: React.FC = () => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth(); // Usa o contexto de autenticação
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/events'); // Redireciona para a página de eventos se já estiver autenticado
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setMessage('');
     try {
-      const response = await api.post('/signin', { email, password }); // Alterado para /signin
+      const response = await api.post('/signin', { email, password });
       localStorage.setItem('token', response.data.token); // Salvando o token localmente
-      navigate('/'); // Redirecionar após login
+      navigate('/events'); // Redirecionar para a página de eventos após login
     } catch (error: any) {
       setMessage('E-mail ou senha incorretos');
     } finally {

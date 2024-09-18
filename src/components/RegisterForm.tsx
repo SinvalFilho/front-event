@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
 const RegisterForm: React.FC = () => {
@@ -7,6 +9,12 @@ const RegisterForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth(); // Usa o contexto de autenticação
+
+  if (isAuthenticated) {
+    navigate('/'); // Redireciona para a página inicial se já estiver autenticado
+  }
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +35,7 @@ const RegisterForm: React.FC = () => {
         setName('');
         setEmail('');
         setPassword('');
+        navigate('/login'); // Redireciona para a página de login após o registro
       }
     } catch (error: any) {
       // Exibe mensagem de erro retornada pelo backend

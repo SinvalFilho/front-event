@@ -13,24 +13,34 @@ const EditEvent: React.FC = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get(`/events/${eventId}`);
-        const event = response.data;
-        setTitle(event.title);
-        setDescription(event.description);
-        setDate(new Date(event.date).toISOString().slice(0, 16));
-        setLocation(event.location);
-      } catch (error) {
-        console.error('Erro ao buscar evento', error);
-        setMessage('Erro ao buscar evento');
-      } finally {
-        setLoading(false);
-      }
-    };
+    console.log('eventId:', eventId); // Verifique se eventId está correto
+    if (eventId) {
+      const fetchEvent = async () => {
+        setLoading(true);
+        try {
+          const response = await api.get(`/events/${eventId}`);
+          const event = response.data;
+          
+          // Ajuste o formato da data para datetime-local
+          const formattedDate = new Date(event.date).toISOString().slice(0, 16);
 
-    fetchEvent();
+          setTitle(event.title);
+          setDescription(event.description);
+          setDate(formattedDate);
+          setLocation(event.location);
+        } catch (error) {
+          console.error('Erro ao buscar evento', error);
+          setMessage('Erro ao buscar evento');
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchEvent();
+    } else {
+      console.error('ID do evento não fornecido.');
+      setMessage('ID do evento não fornecido.');
+    }
   }, [eventId]);
 
   const handleUpdate = async (e: React.FormEvent) => {
@@ -44,10 +54,13 @@ const EditEvent: React.FC = () => {
     setLoading(true);
 
     try {
+      // Ajuste o formato da data para enviar ao backend
+      const formattedDate = new Date(date).toISOString();
+
       await api.put(`/events/${eventId}`, {
         title,
         description,
-        date,
+        date: formattedDate,
         location,
       });
       alert('Evento atualizado com sucesso!');

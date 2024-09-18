@@ -16,13 +16,23 @@ const CreateEvent: React.FC = () => {
       return;
     }
 
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+      setMessage('Usuário não autenticado. Por favor, faça login.');
+      return;
+    }
+
     try {
-      await api.post('/events', {
-        title,
-        description,
-        date,
-        location,
-      });
+      await api.post(
+        '/events',
+        { title, description, date, location },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setMessage('Evento criado com sucesso!');
       setTitle('');
       setDescription('');

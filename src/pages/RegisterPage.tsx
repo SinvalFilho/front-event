@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 
 const RegisterPage: React.FC = () => {
@@ -9,6 +10,13 @@ const RegisterPage: React.FC = () => {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth(); // Usa o contexto de autenticação
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/events'); // Redireciona para a página de eventos se já estiver autenticado
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,8 +28,11 @@ const RegisterPage: React.FC = () => {
     setLoading(true);
     try {
       await api.post('/register', { name, email, password });
-      navigate('/login'); // Redirecionar após registro
-    } catch (error) {
+      setMessage('Registro realizado com sucesso! Redirecionando para login...');
+      setTimeout(() => {
+        navigate('/login'); // Redirecionar após registro
+      }, 2000); // Aguarda 2 segundos antes de redirecionar
+    } catch (error: any) {
       setMessage('Erro ao registrar. Tente novamente.');
     } finally {
       setLoading(false);
@@ -73,7 +84,7 @@ const RegisterPage: React.FC = () => {
           >
             {loading ? 'Carregando...' : 'Registrar'}
           </button>
-          {message && <p className="mt-4 text-red-500 text-center">{message}</p>}
+          {message && <p className={`mt-4 text-center ${message.includes('Erro') ? 'text-red-500' : 'text-green-500'}`}>{message}</p>}
         </form>
       </div>
     </div>

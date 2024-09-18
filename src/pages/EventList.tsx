@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 
 interface Event {
@@ -8,12 +9,14 @@ interface Event {
   date: string;
   location: string;
   status: string;
+  imageUrl: string; // Adicionado campo para URL da imagem
 }
 
 const EventList: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -43,6 +46,10 @@ const EventList: React.FC = () => {
     }
   };
 
+  const handleEdit = (eventId: number) => {
+    navigate(`/edit-event/${eventId}`);
+  };
+
   if (loading) return <p className="text-center">Carregando eventos...</p>;
 
   return (
@@ -54,20 +61,33 @@ const EventList: React.FC = () => {
       ) : (
         <ul className="space-y-4">
           {events.map((event) => (
-            <li key={event.id} className="bg-white shadow-md rounded p-4 flex justify-between items-center">
-              <div>
+            <li key={event.id} className="bg-white shadow-md rounded p-4 flex items-center space-x-4">
+              <img
+                src={event.imageUrl}
+                alt={event.title}
+                className="w-24 h-24 object-cover rounded"
+              />
+              <div className="flex-1">
                 <h2 className="text-xl font-semibold">{event.title}</h2>
                 <p className="text-sm text-gray-600">{event.description}</p>
                 <p className="text-sm text-gray-600">Data: {new Date(event.date).toLocaleString()}</p>
                 <p className="text-sm text-gray-600">Local: {event.location}</p>
                 <p className="text-sm text-gray-600">Status: {event.status}</p>
               </div>
-              <button
-                onClick={() => handleDelete(event.id)}
-                className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
-              >
-                Excluir
-              </button>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => handleEdit(event.id)}
+                  className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => handleDelete(event.id)}
+                  className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                >
+                  Excluir
+                </button>
+              </div>
             </li>
           ))}
         </ul>

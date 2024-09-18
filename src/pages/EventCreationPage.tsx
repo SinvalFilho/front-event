@@ -17,20 +17,31 @@ const CreateEvent: React.FC = () => {
       return;
     }
 
-    if (new Date(date) <= new Date()) {
+    const eventDate = new Date(date);
+    if (eventDate <= new Date()) {
       setMessage('A data e hora devem ser no futuro.');
       return;
     }
 
     setLoading(true);
 
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setMessage('Usuário não autenticado. Por favor, faça login.');
+      setLoading(false);
+      return;
+    }
+
     try {
-      await api.post('/events', {
-        title,
-        description,
-        date,
-        location,
-      });
+      await api.post(
+        '/events',
+        { title, description, date, location },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setMessage('Evento criado com sucesso!');
       setTitle('');
       setDescription('');
