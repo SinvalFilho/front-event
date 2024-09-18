@@ -20,14 +20,18 @@ const RegisterForm: React.FC = () => {
     }
 
     try {
-      await api.post('/register', { name, email, password });
-      setMessage('User registered successfully!');
-      setName('');
-      setEmail('');
-      setPassword('');
-    } catch (error) {
-      console.error('Error registering user:', error);
-      setMessage('Error registering user. Please try again.');
+      const response = await api.post('/register', { name, email, password });
+      // Sucesso no registro
+      if (response.status === 201) {
+        setMessage('User registered successfully!');
+        setName('');
+        setEmail('');
+        setPassword('');
+      }
+    } catch (error: any) {
+      // Exibe mensagem de erro retornada pelo backend
+      const errorMessage = error.response?.data?.error || 'Error registering user. Please try again.';
+      setMessage(errorMessage);
     } finally {
       setLoading(false);
     }

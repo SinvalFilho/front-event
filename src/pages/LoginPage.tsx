@@ -12,10 +12,12 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setMessage('');
     try {
-      await api.post('/login', { email, password });
-      navigate('/events'); // Redirecionar após login
-    } catch (error) {
+      const response = await api.post('/signin', { email, password }); // Alterado para /signin
+      localStorage.setItem('token', response.data.token); // Salvando o token localmente
+      navigate('/'); // Redirecionar após login
+    } catch (error: any) {
       setMessage('E-mail ou senha incorretos');
     } finally {
       setLoading(false);

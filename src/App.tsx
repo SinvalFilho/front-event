@@ -18,7 +18,7 @@ const App: React.FC = () => {
       <Router>
         <div className="flex flex-col min-h-screen">
           <NavBar />
-          <main className="flex-grow p-4 pt-20"> {/* Adicione pt-20 ou um valor suficiente para acomodar a Navbar */}
+          <main className="flex-grow pt-16"> {/* Ajuste o padding-top para dar espaço à NavBar */}
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/register" element={<RegisterPage />} />
@@ -26,7 +26,7 @@ const App: React.FC = () => {
               <Route path="/create-event" element={<ProtectedRoute><CreateEvent /></ProtectedRoute>} />
               <Route path="/edit-event/:id" element={<ProtectedRoute><EditEvent /></ProtectedRoute>} />
               <Route path="/events" element={<EventList />} />
-              <Route path="*" element={<NotFound />} /> {/* Adicione uma página NotFound para rotas não encontradas */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
           <Footer />

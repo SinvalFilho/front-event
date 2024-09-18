@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import api from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -13,11 +15,13 @@ const LoginForm: React.FC = () => {
     setMessage('');
 
     try {
-      const response = await api.post('/login', { email, password });
+      const response = await api.post('/signin', { email, password });
       localStorage.setItem('token', response.data.token); // Salvando o token localmente
       setMessage('Login bem-sucedido!');
-    } catch (error) {
-      setMessage('Erro ao realizar login. Verifique suas credenciais e tente novamente.');
+      navigate('/home'); // Redireciona para a página inicial
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.erro || 'Erro ao realizar login. Verifique suas credenciais e tente novamente.';
+      setMessage(errorMessage);
     } finally {
       setLoading(false);
     }

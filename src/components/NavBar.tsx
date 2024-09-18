@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="fixed top-0 left-0 w-full bg-blue-500 p-4 text-white z-50">
-      <div className="container mx-auto flex justify-between items-center">
+    <nav className="fixed top-0 left-0 w-full bg-blue-600 text-white shadow-md z-50">
+      <div className="container mx-auto flex justify-between items-center p-4">
         <Link to="/" className="text-2xl font-bold" aria-label="Página inicial">EventoApp</Link>
-        <div className="hidden md:flex space-x-4">
-          <Link to="/" className="hover:underline" aria-label="Ir para a página inicial">Home</Link>
-          <Link to="/events" className="hover:underline" aria-label="Ver eventos">Eventos</Link>
-          <Link to="/login" className="hover:underline" aria-label="Ir para a página de login">Login</Link>
-          <Link to="/register" className="ml-4 bg-green-500 py-2 px-4 rounded hover:bg-green-600" aria-label="Ir para a página de registro">Registrar</Link>
+        <div className="hidden md:flex space-x-6">
+          <Link to="/" className="hover:bg-blue-700 py-2 px-4 rounded transition" aria-label="Ir para a página inicial">Home</Link>
+          <Link to="/events" className="hover:bg-blue-700 py-2 px-4 rounded transition" aria-label="Ver eventos">Eventos</Link>
+          <Link to="/login" className="hover:bg-blue-700 py-2 px-4 rounded transition" aria-label="Ir para a página de login">Login</Link>
+          <Link to="/register" className="bg-green-500 hover:bg-green-600 py-2 px-4 rounded transition" aria-label="Ir para a página de registro">Registrar</Link>
         </div>
         <div className="md:hidden flex items-center">
           <button
@@ -31,12 +31,12 @@ const Navbar: React.FC = () => {
         </div>
       </div>
       {/* Mobile menu */}
-      <div className="md:hidden mt-4">
+      <div className="md:hidden mt-4 bg-blue-600">
         <div className="space-y-2">
-          <Link to="/" className="block py-2 px-4 bg-blue-600 rounded hover:bg-blue-700" aria-label="Ir para a página inicial">Home</Link>
-          <Link to="/events" className="block py-2 px-4 bg-blue-600 rounded hover:bg-blue-700" aria-label="Ver eventos">Eventos</Link>
-          <Link to="/login" className="block py-2 px-4 bg-blue-600 rounded hover:bg-blue-700" aria-label="Ir para a página de login">Login</Link>
-          <Link to="/register" className="block py-2 px-4 bg-green-500 rounded hover:bg-green-600" aria-label="Ir para a página de registro">Registrar</Link>
+          <Link to="/" className="block py-2 px-4 text-white hover:bg-blue-700 rounded transition" aria-label="Ir para a página inicial">Home</Link>
+          <Link to="/events" className="block py-2 px-4 text-white hover:bg-blue-700 rounded transition" aria-label="Ver eventos">Eventos</Link>
+          <Link to="/login" className="block py-2 px-4 text-white hover:bg-blue-700 rounded transition" aria-label="Ir para a página de login">Login</Link>
+          <Link to="/register" className="block py-2 px-4 bg-green-500 hover:bg-green-600 rounded transition" aria-label="Ir para a página de registro">Registrar</Link>
         </div>
       </div>
     </nav>
