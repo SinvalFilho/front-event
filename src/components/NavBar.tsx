@@ -23,38 +23,6 @@ const Navbar: React.FC = () => {
           </Link>
         </div>
         <div className="md:hidden flex items-center">
-          <button
-            type="button"
-            className="text-white focus:outline-none"
-            aria-label="Abrir menu"
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-          </button>
-        </div>
-      </div>
-      {/* Mobile menu */}
-      <div className="md:hidden mt-4 bg-blue-800">
-        <div className="flex flex-col space-y-2 p-4">
-          <Link to="/" className="block py-2 px-4 text-white rounded hover:bg-blue-700" aria-label="Ir para a página inicial">
-            Home
-          </Link>
-          <Link to="/events" className="block py-2 px-4 text-white rounded hover:bg-blue-700" aria-label="Ver eventos">
-            Eventos
-          </Link>
-          <Link to="/login" className="block py-2 px-4 text-white rounded hover:bg-blue-700" aria-label="Ir para a página de login">
-            Login
-          </Link>
-          <Link to="/register" className="block py-2 px-4 text-white bg-green-600 rounded hover:bg-green-700" aria-label="Ir para a página de registro">
-            Registrar
-          </Link>
         </div>
       </div>
     </nav>

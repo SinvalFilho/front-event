@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import NotFound from './pages/NotFound';
+import './styles/global.css'
 
 const App: React.FC = () => {
   return (
